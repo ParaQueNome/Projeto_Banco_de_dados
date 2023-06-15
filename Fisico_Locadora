@@ -1,0 +1,141 @@
+/* Logico_Locadora: */
+
+CREATE TABLE Loja_Funcionario (
+    id INTEGER PRIMARY KEY,
+    gerente VARCHAR,
+    nome VARCHAR,
+    foto BLOB,
+    email VARCHAR,
+    ativo BOOLEAN,
+    login VARCHAR,
+    senha VARCHAR,
+    fk_Loja_Funcionario_id INTEGER
+);
+
+CREATE TABLE Cliente (
+    id INTEGER PRIMARY KEY,
+    nome VARCHAR,
+    email VARCHAR,
+    ativo BOOLEAN,
+    fk_Loja_Funcionario_id INTEGER
+);
+
+CREATE TABLE _Ator (
+    id INTEGER PRIMARY KEY,
+    nome VARCHAR
+);
+
+CREATE TABLE Categoria (
+    id INTEGER PRIMARY KEY,
+    nome VARCHAR
+);
+
+CREATE TABLE Filme (
+    id INTEGER PRIMARY KEY,
+    titulo VARCHAR,
+    descricao VARCHAR,
+    ano INTEGER,
+    aluguel_duracao TIMESTAMP,
+    aluguel_taxa FLOAT,
+    duracao TIME,
+    valor_reposicao FLOAT,
+    classificacao VARCHAR,
+    caracteristicas VARCHAR
+);
+
+CREATE TABLE Aluguel (
+    id INTEGER PRIMARY KEY,
+    data DATE,
+    data_devolucao DATE,
+    fk_Cliente_id INTEGER,
+    fk_Loja_Funcionario_id INTEGER
+);
+
+CREATE TABLE Item (
+    id INTEGER PRIMARY KEY,
+    fk_Aluguel_id INTEGER,
+    fk_Filme_id INTEGER
+);
+
+CREATE TABLE Pagamento (
+    id INTEGER PRIMARY KEY,
+    valor FLOAT,
+    data_pagamento DATE,
+    fk_Aluguel_id INTEGER,
+    fk_Loja_Funcionario_id INTEGER,
+    fk_Cliente_id INTEGER
+);
+
+CREATE TABLE Possui (
+    fk_Filme_id INTEGER,
+    fk_Categoria_id INTEGER
+);
+
+CREATE TABLE Atua (
+    fk_Filme_id INTEGER,
+    fk__Ator_id INTEGER
+);
+ 
+ALTER TABLE Loja_Funcionario ADD CONSTRAINT FK_Loja_Funcionario_2
+    FOREIGN KEY (fk_Loja_Funcionario_id)
+    REFERENCES Loja_Funcionario (id);
+ 
+ALTER TABLE Cliente ADD CONSTRAINT FK_Cliente_2
+    FOREIGN KEY (fk_Loja_Funcionario_id)
+    REFERENCES Loja_Funcionario (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Aluguel ADD CONSTRAINT FK_Aluguel_2
+    FOREIGN KEY (fk_Cliente_id)
+    REFERENCES Cliente (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Aluguel ADD CONSTRAINT FK_Aluguel_3
+    FOREIGN KEY (fk_Loja_Funcionario_id)
+    REFERENCES Loja_Funcionario (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Item ADD CONSTRAINT FK_Item_2
+    FOREIGN KEY (fk_Aluguel_id)
+    REFERENCES Aluguel (id)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Item ADD CONSTRAINT FK_Item_3
+    FOREIGN KEY (fk_Filme_id)
+    REFERENCES Filme (id)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Pagamento ADD CONSTRAINT FK_Pagamento_2
+    FOREIGN KEY (fk_Aluguel_id)
+    REFERENCES Aluguel (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Pagamento ADD CONSTRAINT FK_Pagamento_3
+    FOREIGN KEY (fk_Loja_Funcionario_id)
+    REFERENCES Loja_Funcionario (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Pagamento ADD CONSTRAINT FK_Pagamento_4
+    FOREIGN KEY (fk_Cliente_id)
+    REFERENCES Cliente (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Possui ADD CONSTRAINT FK_Possui_1
+    FOREIGN KEY (fk_Filme_id)
+    REFERENCES Filme (id)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Possui ADD CONSTRAINT FK_Possui_2
+    FOREIGN KEY (fk_Categoria_id)
+    REFERENCES Categoria (id)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Atua ADD CONSTRAINT FK_Atua_1
+    FOREIGN KEY (fk_Filme_id)
+    REFERENCES Filme (id)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Atua ADD CONSTRAINT FK_Atua_2
+    FOREIGN KEY (fk__Ator_id)
+    REFERENCES _Ator (id)
+    ON DELETE RESTRICT;
