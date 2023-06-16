@@ -139,3 +139,44 @@ ALTER TABLE Atua ADD CONSTRAINT FK_Atua_2
     FOREIGN KEY (fk__Ator_id)
     REFERENCES _Ator (id)
     ON DELETE RESTRICT;
+
+CREATE VIEW AtoresFilmes AS
+	SELECT A.nome AS Ator, F.titulo AS Filme
+	FROM _Ator A
+	JOIN Atua AT ON A.id = AT.fk__Ator_id
+	JOIN Filme F ON AT.fk_Filme_id = F.id;
+
+
+CREATE VIEW FilmesCategoriasAtores AS
+	SELECT F.titulo AS Filme, C.nome AS Categoria, A.nome AS Ator
+	FROM Filme F
+	JOIN Possui P ON F.id = P.fk_Filme_id
+	JOIN Categoria C ON P.fk_Categoria_id = C.id
+	JOIN Atua AT ON F.id = AT.fk_Filme_id
+	JOIN _Ator A ON AT.fk__Ator_id = A.id;
+    
+CREATE VIEW FilmesMaisAlugados AS
+	SELECT F.titulo AS Filme, COUNT(*) AS TotalAlugueis
+	FROM Filme F
+	JOIN Item I ON F.id = I.fk_Filme_id
+	GROUP BY F.titulo
+	ORDER BY TotalAlugueis DESC
+	LIMIT 5;
+    
+CREATE VIEW PagamentosEmAberto AS
+	SELECT P.id AS PagamentoID, C.nome AS Cliente, P.valor AS Valor
+	FROM Pagamento P
+	JOIN Cliente C ON P.fk_Cliente_id = C.id
+	WHERE P.data_pagamento IS NULL;
+
+CREATE VIEW LojasGerentes AS
+	SELECT L.nome AS Loja, LF.gerente AS Gerente
+	FROM Loja_Funcionario LF
+	JOIN Loja_Funcionario L ON LF.fk_Loja_Funcionario_id = L.id;
+
+CREATE VIEW ClientesLojas AS
+	SELECT L.nome AS Loja, C.nome AS Cliente
+	FROM Loja_Funcionario LF
+	JOIN Loja_Funcionario L ON LF.fk_Loja_Funcionario_id = L.id
+	JOIN Cliente C ON LF.id = C.fk_Loja_Funcionario_id
+	ORDER BY L.nome, C.nome;
