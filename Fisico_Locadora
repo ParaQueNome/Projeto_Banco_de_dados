@@ -181,3 +181,18 @@ CREATE VIEW ClientesLojas AS
 	JOIN Loja_Funcionario L ON LF.fk_Loja_Funcionario_id = L.id
 	JOIN Cliente C ON LF.id = C.fk_Loja_Funcionario_id
 	ORDER BY L.nome, C.nome;
+// Criacao da tabela estoque
+
+CREATE TABLE Estoque (
+    id INTEGER PRIMARY KEY,
+    fk_Loja_Funcionario_id INTEGER,
+    fk_Filme_id INTEGER,
+    quantidade INTEGER,
+    FOREIGN KEY (fk_Loja_Funcionario_id) REFERENCES Loja_Funcionario (id),
+    FOREIGN KEY (fk_Filme_id) REFERENCES Filme (id)
+);
+
+ALTER TABLE Item ADD CONSTRAINT FK_Item_4
+    FOREIGN KEY (fk_Estoque_id)
+    REFERENCES Estoque (id)
+    ON DELETE RESTRICT;
