@@ -2,45 +2,45 @@
 
 CREATE TABLE Loja_Funcionario (
     id INTEGER PRIMARY KEY,
-    gerente VARCHAR,
-    nome VARCHAR,
+    gerente VARCHAR(30),
+    nome VARCHAR(30),
     foto BLOB,
-    email VARCHAR,
+    email VARCHAR(30),
     ativo BOOLEAN,
-    login VARCHAR,
-    senha VARCHAR,
+    login VARCHAR(30),
+    senha VARCHAR(30),
     fk_Loja_Funcionario_id INTEGER
 );
 
 CREATE TABLE Cliente (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR,
-    email VARCHAR,
+    nome VARCHAR(30),
+    email VARCHAR(30),
     ativo BOOLEAN,
     fk_Loja_Funcionario_id INTEGER
 );
 
 CREATE TABLE _Ator (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR
+    nome VARCHAR(30)
 );
 
 CREATE TABLE Categoria (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR
+    nome VARCHAR(30)
 );
 
 CREATE TABLE Filme (
     id INTEGER PRIMARY KEY,
-    titulo VARCHAR,
-    descricao VARCHAR,
+    titulo VARCHAR(30),
+    descricao VARCHAR(30),
     ano INTEGER,
     aluguel_duracao TIMESTAMP,
     aluguel_taxa FLOAT,
     duracao TIME,
     valor_reposicao FLOAT,
-    classificacao VARCHAR,
-    caracteristicas VARCHAR
+    classificacao VARCHAR(30),
+    caracteristicas VARCHAR(30)
 );
 
 CREATE TABLE Aluguel (
@@ -75,6 +75,7 @@ CREATE TABLE Atua (
     fk_Filme_id INTEGER,
     fk__Ator_id INTEGER
 );
+
  
 ALTER TABLE Loja_Funcionario ADD CONSTRAINT FK_Loja_Funcionario_2
     FOREIGN KEY (fk_Loja_Funcionario_id)
